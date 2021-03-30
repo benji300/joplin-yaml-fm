@@ -4,6 +4,7 @@ import { ChangeEvent } from 'api/JoplinSettings';
 import { SettingDefaults, Settings } from './settings';
 import { Panel } from './panel';
 import { DA } from './data';
+import YAML = require('yaml');
 
 joplin.plugins.register({
   onStart: async function () {
@@ -35,20 +36,54 @@ joplin.plugins.register({
       await panel.updateWebview();
     });
 
+    async function getYamlFromNote(note: any): Promise<string | null> {
+      const noteBody: string[] = note.body.split('\n');
+
+      // TODO support other styles too (comment, default)
+
+      // first line must start with front matter header
+      if (!noteBody.shift().match(/^```yaml/i))
+        return;
+
+      // if valid collect all lines till yaml footer
+      const yaml: string[] = [];
+      for (const line of noteBody) {
+        // stop if footer is reached
+        if (line.match(/^```/i)) break;
+        yaml.push(line);
+      }
+      return yaml.join('\n');
+    }
+
     WORKSPACE.onNoteSelectionChange(async () => {
       try {
         const selectedNote: any = await WORKSPACE.selectedNote();
         let yaml: any;
 
         if (selectedNote) {
-          // TODO parse noteBody for YAML data
+          // get YAML front matter string from note body, if exists
+          const yamlStr: string = await getYamlFromNote(selectedNote);
 
-          // TODO create yaml object
-          // yaml = ?
+          // parse string to YAML object
+          // TODO check and test options: https://eemeli.org/yaml/v1/#options
+          // Test: prettyErrors
+          // Test: https://eemeli.org/yaml/v1/#built-in-custom-tags
+          if (yamlStr) {
+            yaml = YAML.parse(yamlStr, { mapAsMap: true });
+          }
+          console.log(`yaml object: ${selectedNote.title}`);
+          console.log(`${YAML.stringify(yaml)}`);
         }
 
-        // TODO pass yaml object - if null panel shall not be shown
-        await panel.updateWebview();
+        // TODO check display panel option here
+        // if yaml == null && option == auto 
+        //   togglePanelvisibility == false
+        //   then also return (to prevent obsolete update of panel)
+        // else
+        //  ensure visibility of panel (and go ahead)
+
+        // TODO was ist wenn yaml leer ist? => Dann nur eine Meldung ausgeben "selected note does not contain YAML front matter data."
+        await panel.updateWebview(yaml);
       } catch (error) {
         console.error(`onNoteSelectionChange: ${error}`);
       }

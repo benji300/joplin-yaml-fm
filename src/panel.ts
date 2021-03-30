@@ -17,7 +17,7 @@ export class Panel {
    * Register plugin panel and update webview for the first time.
    */
   async register() {
-    this._panel = await joplin.views.panels.create('note.tabs.panel');
+    this._panel = await joplin.views.panels.create('yaml.fm.panel');
     await joplin.views.panels.addScript(this._panel, './assets/fontawesome/css/all.min.css');
     await joplin.views.panels.addScript(this._panel, './webview.css');
     await joplin.views.panels.addScript(this._panel, './webview.js');
@@ -32,7 +32,7 @@ export class Panel {
     // set init message
     await joplin.views.panels.setHtml(this._panel, `
       <div id="container" style="background:${this.sets.background};font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
-        <div id="tabs-container">
+        <div id="fm-container">
           <p style="padding-left:8px;">Loading panel...</p>
         </div>
       </div>
@@ -212,8 +212,35 @@ export class Panel {
     // add entries to container and push to panel
     await joplin.views.panels.setHtml(this._panel, `
       <div id="container" style="background:${this.sets.background};font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
+        <div id="fm-title" style="height:${this._settings.lineHeight}px;">
+          <span class="fas fa-info-circle" style="color:${this.sets.foreground};"></span>
+          <span class="title" style="color:${this.sets.foreground};">YAML FRONT MATTER</span>
+        </div>
         <div id="fm-container">
-          <p>YAML Front Matter</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Value(s)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>KeyA</td>
+                <td>X</td>
+              </tr>
+              <tr>
+                <td>ListKey</td>
+                <td>
+                  <ul>
+                    <li>list item 1</li>
+                    <li>list item 2</li>
+                    <li>list item 3</li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     `);

@@ -9,7 +9,6 @@
 }
 
 html {
-  --infobarHeight: 26px;
 }
 
 html,
@@ -25,21 +24,44 @@ span {
   cursor: default;
 }
 
-/* HORIZONTAL LAYOUT */
 #container {
   height: 100%;
+  width: 100%;
+}
+
+#fm-title {
+  align-items: center;
+  display: flex;
+  padding: 0 5px;
+}
+.title {
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+#fm-container {
+  display: flex;
+  float: left;
   overflow-x: hidden;
   overflow-y: overlay;
   width: 100%;
 }
 
-#tabs-container {
-  display: flex;
-  float: left;
-  overflow-x: overlay;
+table {
   width: 100%;
 }
-#tab {
+tr {
+  border-bottom: 1px solid lightgrey;
+  vertical-align: top;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: inside;
+}
+
+/* #tab {
   border-style: solid;
   border-width: 0;
   border-right-width: 1px;
@@ -74,9 +96,9 @@ span {
   padding-right: 3px;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
+} */
 
-#controls {
+/* #controls {
   align-items: center;
   display: flex;
   float: right;
@@ -97,9 +119,9 @@ span {
 }
 #controls .fas:hover {
   opacity: 1;
-}
+} */
 
-#infobar-container {
+/* #infobar-container {
   display: flex;
   float: left;
   height: var(--infobarHeight);
@@ -110,9 +132,9 @@ span {
 }
 #infobar-container .fas.fa-book {
   font-size: 1.2em;
-}
+} */
 
-.navigation-icons {
+/* .navigation-icons {
   border-style: solid;
   border-width: 0;
   border-right-width: 1px;
@@ -128,9 +150,9 @@ span {
   line-height: calc(var(--infobarHeight) - 2px);
   min-width: 12px;
   padding: 0 4px;
-}
+} */
 
-.checklist-state {
+/* .checklist-state {
   border-style: solid;
   border-width: 0;
   border-right-width: 1px;
@@ -156,9 +178,9 @@ span {
   background: #46ba61;
   color: white;
   border-radius: 3px;
-}
+} */
 
-.breadcrumbs-icon {
+/* .breadcrumbs-icon {
   margin: auto 0;
   padding-left: 8px;
 }
@@ -199,16 +221,7 @@ span {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-}
-
-/* DRAG AND DROP */
-[draggable="true"] {
-  /* To prevent user selecting inside the drag source */
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-}
+} */
 
 /* SCROLLBARS */
 ::-webkit-scrollbar {
