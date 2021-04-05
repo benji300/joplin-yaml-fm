@@ -25,11 +25,12 @@ import { DA } from './data';
 export enum SettingDefaults {
   Empty = '0',
   Default = 'default',
+  LineHeight = '1.5em',
   FontFamily = 'Roboto',
   FontSize = 'var(--joplin-font-size)',
-  Background = 'var(--joplin-background-color3)',
-  HoverBackground = 'var(--joplin-background-color-hover3)', // var(--joplin-background-hover)
-  Foreground = 'var(--joplin-color-faded)',
+  Background = 'var(--joplin-background-color)',
+  KeyBackground = 'var(--joplin-background-color3)',
+  Foreground = 'var(--joplin-color)',
   DividerColor = 'var(--joplin-divider-color)'
 }
 
@@ -40,12 +41,13 @@ export class Settings {
   // private settings
   // none
   // general settings
-  private _lineHeight: number = 30;
+  private _lineHeight: number = 21;
   // advanced settings
   private _fontFamily: string = SettingDefaults.Default;
   private _fontSize: string = SettingDefaults.Default;
   private _background: string = SettingDefaults.Default;
-  private _hoverBackground: string = SettingDefaults.Default;
+  private _keyBackground: string = SettingDefaults.Default;
+  private _valueBackground: string = SettingDefaults.Default;
   private _foreground: string = SettingDefaults.Default;
   private _dividerColor: string = SettingDefaults.Default;
   // internals
@@ -72,8 +74,12 @@ export class Settings {
     return this._background;
   }
 
-  get hoverBackground(): string {
-    return this._hoverBackground;
+  get keyBackground(): string {
+    return this._keyBackground;
+  }
+
+  get valueBackground(): string {
+    return this._valueBackground;
   }
 
   get foreground(): string {
@@ -142,14 +148,23 @@ export class Settings {
       label: 'Background color',
       description: 'Main background color of the panel. (default: Note background color)'
     });
-    await joplin.settings.registerSetting('hoverBackground', {
-      value: this._hoverBackground,
+    await joplin.settings.registerSetting('keyBackground', {
+      value: this._keyBackground,
       type: SettingItemType.String,
       section: 'yaml.fm.settings',
       public: true,
       advanced: true,
-      label: 'Hover Background color',
-      description: 'Background color used when hovering a data entry. (default: Note list hover color)'
+      label: 'Key background color',
+      description: 'Background color for data keys. (default: Note list background color)'
+    });
+    await joplin.settings.registerSetting('valueBackground', {
+      value: this._valueBackground,
+      type: SettingItemType.String,
+      section: 'yaml.fm.settings',
+      public: true,
+      advanced: true,
+      label: 'Value background color',
+      description: 'Background color for data values. (default: Note background color)'
     });
     await joplin.settings.registerSetting('mainForeground', {
       value: this._foreground,
@@ -195,7 +210,8 @@ export class Settings {
     this._fontFamily = await this.getOrDefault(event, this._fontFamily, 'fontFamily', SettingDefaults.FontFamily);
     this._fontSize = await this.getOrDefault(event, this._fontSize, 'fontSize', SettingDefaults.FontSize);
     this._background = await this.getOrDefault(event, this._background, 'mainBackground', SettingDefaults.Background);
-    this._hoverBackground = await this.getOrDefault(event, this._hoverBackground, 'hoverBackground', SettingDefaults.HoverBackground);
+    this._keyBackground = await this.getOrDefault(event, this._keyBackground, 'keyBackground', SettingDefaults.KeyBackground);
+    this._valueBackground = await this.getOrDefault(event, this._valueBackground, 'valueBackground', SettingDefaults.Background);
     this._foreground = await this.getOrDefault(event, this._foreground, 'mainForeground', SettingDefaults.Foreground);
     this._dividerColor = await this.getOrDefault(event, this._dividerColor, 'dividerColor', SettingDefaults.DividerColor);
   }
