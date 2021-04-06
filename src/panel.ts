@@ -31,6 +31,9 @@ export class Panel {
 
     // message handler
     await joplin.views.panels.onMessage(this._panel, async (message: any) => {
+      if (message.name === 'refresh') {
+        // TODO trigger refresh command
+      }
       if (message.name === 'openUrl') {
         // try to open the URL in the system's default browser
         Url.open(message.url);
@@ -129,7 +132,7 @@ export class Panel {
         yaml.contents.items.forEach(x => { tableRows.push(this.getRowHtml(x)) });
 
         return `
-          <table style="color:${this.sets.foreground};">
+          <table style="color:${this.sets.foreground};margin-bottom:${this.sets.lineHeight}px;">
             <tbody>
               ${tableRows.join('\n')}
             </tbody>
@@ -138,7 +141,7 @@ export class Panel {
       }
     }
 
-    return `<p>Selected note contains no valid YAML Front Matter data.</p>`;
+    return `<p>Selected note doesn't contain valid YAML Front Matter data.</p>`;
   }
 
   /**
@@ -151,14 +154,14 @@ export class Panel {
     // add entries to container and push to panel
     await joplin.views.panels.setHtml(this._panel, `
       <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
-        <div id="fm-title" style="height:${this._settings.lineHeight}px;">
-          <!--span class="fas fa-info-circle" style="color:${this.sets.foreground};"></span-->
+        <div id="fm-title">
           <span class="title" style="color:${this.sets.foreground};">FRONT MATTER</span>
+          <div class="controls">
+            <span class="fas fa-sync-alt" onclick="message('refresh')" title="Refresh panel"></span>
+          </div>
         </div>
         <div id="fm-container">
-          <div id="fm-inner">
-            ${yamlDataHtml}
-          </div>
+          ${yamlDataHtml}
         </div>
       </div>
     `);

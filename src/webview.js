@@ -23,3 +23,7 @@ function message(message) {
 function openUrl(event) {
   webviewApi.postMessage({ name: 'openUrl', url: event.currentTarget.dataset.url });
 }
+
+function openNote(event) {
+  /// TODO
+}
