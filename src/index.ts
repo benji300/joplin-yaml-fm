@@ -72,6 +72,17 @@ joplin.plugins.register({
 
     //#region COMMANDS
 
+    // Command: yamlRefresh
+    // Desc: Toggle panel visibility
+    await COMMANDS.register({
+      name: 'yamlRefresh',
+      label: 'Refresh front matter panel',
+      iconName: 'fas fa-sync-alt',
+      execute: async () => {
+        await updatePanel();
+      }
+    });
+
     // Command: yamlToggleVisibility
     // Desc: Toggle panel visibility
     await COMMANDS.register({
@@ -82,6 +93,12 @@ joplin.plugins.register({
         await panel.toggleVisibility();
       }
     });
+
+    // add commands to note menu
+    await joplin.views.menuItems.create('noteMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.Note);
+
+    // add commands to editor context menu
+    await joplin.views.menuItems.create('editorContextMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.EditorContextMenu);
 
     //#endregion
 

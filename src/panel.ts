@@ -32,7 +32,7 @@ export class Panel {
     // message handler
     await joplin.views.panels.onMessage(this._panel, async (message: any) => {
       if (message.name === 'refresh') {
-        // TODO trigger refresh command
+        await joplin.commands.execute('yamlRefresh');
       }
       if (message.name === 'openUrl') {
         // try to open the URL in the system's default browser
@@ -44,7 +44,7 @@ export class Panel {
     await joplin.views.panels.setHtml(this._panel, `
       <div id="container" style="background:${this.sets.background};font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
         <div id="fm-container">
-          <p style="padding-left:8px;">Loading panel...</p>
+          <p>Loading panel...</p>
         </div>
       </div>
     `);
