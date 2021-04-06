@@ -31,7 +31,8 @@ export enum SettingDefaults {
   Background = 'var(--joplin-background-color)',
   KeyBackground = 'var(--joplin-background-color3)',
   Foreground = 'var(--joplin-color)',
-  DividerColor = 'var(--joplin-divider-color)'
+  DividerColor = 'var(--joplin-divider-color)',
+  ListStyleType = 'Disc'
 }
 
 /**
@@ -50,6 +51,7 @@ export class Settings {
   private _valueBackground: string = SettingDefaults.Default;
   private _foreground: string = SettingDefaults.Default;
   private _dividerColor: string = SettingDefaults.Default;
+  private _listStyleType: string = SettingDefaults.Default;
   // internals
   private _defaultRegExp: RegExp = new RegExp(SettingDefaults.Default, "i");
 
@@ -88,6 +90,10 @@ export class Settings {
 
   get dividerColor(): string {
     return this._dividerColor;
+  }
+
+  get listStyleType(): string {
+    return this._listStyleType;
   }
 
   //#endregion
@@ -184,6 +190,15 @@ export class Settings {
       label: 'Divider color',
       description: 'Color of the divider between the data entries. (default: App default border color)'
     });
+    await joplin.settings.registerSetting('listStyleType', {
+      value: this._listStyleType,
+      type: SettingItemType.String,
+      section: 'yaml.fm.settings',
+      public: true,
+      advanced: true,
+      label: 'List style type',
+      description: "Specify the prefix for list item values (sequences). Enter a valid CSS value for list-style-type (e.g. disc, none, lower-roman, ...) or any characters in single quotes (e.g. '- ')."
+    });
 
     // initially read settings
     await this.read();
@@ -214,5 +229,6 @@ export class Settings {
     this._valueBackground = await this.getOrDefault(event, this._valueBackground, 'valueBackground', SettingDefaults.Background);
     this._foreground = await this.getOrDefault(event, this._foreground, 'mainForeground', SettingDefaults.Foreground);
     this._dividerColor = await this.getOrDefault(event, this._dividerColor, 'dividerColor', SettingDefaults.DividerColor);
+    this._listStyleType = await this.getOrDefault(event, this._listStyleType, 'listStyleType', SettingDefaults.ListStyleType);
   }
 }

@@ -82,7 +82,7 @@ export class Panel {
     items.forEach(x => { itemsHtml.push(`<li>${this.getScalarHtml(x.value)}</li>`) });
 
     return `
-      <ul>
+      <ul style="list-style-type:${this.sets.listStyleType};">
         ${itemsHtml.join('\n')}
       </ul>
     `;
