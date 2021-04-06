@@ -20,10 +20,6 @@ function message(message) {
   webviewApi.postMessage({ name: message });
 }
 
-function openUrl(event) {
-  webviewApi.postMessage({ name: 'openUrl', url: event.currentTarget.dataset.url });
-}
-
-function openNote(event) {
-  /// TODO
+function openLink(event, message) {
+  webviewApi.postMessage({ name: message, value: event.currentTarget.dataset.value });
 }

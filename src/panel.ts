@@ -34,9 +34,12 @@ export class Panel {
       if (message.name === 'refresh') {
         await joplin.commands.execute('yamlRefresh');
       }
+      if (message.name === 'openNote') {
+        await joplin.commands.execute('openNote', message.value);
+      }
       if (message.name === 'openUrl') {
         // try to open the URL in the system's default browser
-        Url.open(message.url);
+        Url.open(message.value);
       }
     });
 
@@ -78,19 +81,44 @@ export class Panel {
   }
 
   private getScalarHtml(value: string): string {
-    const urlRegEx = /^\[(.*)\]\((.*)\)$/g;
-    const urlMatch: RegExpExecArray = urlRegEx.exec(value);
 
-    if (urlMatch && urlMatch.length > 0) {
+    // check if its a boolean value
+    const boolRegEx = /^(true|false)/gi;
+    const boolMatch: RegExpExecArray = boolRegEx.exec(value);
+    if (boolMatch && boolMatch.length > 0) {
+      const checked: string = (value) ? 'checked' : '';
       return `
-        <a href="#" data-url="${urlMatch[2]}" title="${urlMatch[2]}" onclick="openUrl(event)">
-          <span>${this.escapeHtml(urlMatch[1])}</span>
+        <input type="checkbox" readonly ${checked}></input>
+      `;
+    }
+
+    // check if its a link (external or internal)
+    const urlRegEx = /^\[(.*)\]\((.*)\)/g;
+    const urlMatch: RegExpExecArray = urlRegEx.exec(value);
+    if (urlMatch && urlMatch.length > 0) {
+      const title: string = urlMatch[1];
+      let value: string = urlMatch[2];
+      let aTitle: string = value;
+      let message: string = 'openUrl';
+
+      // check if it is an internal link
+      const linkRegEx = /^:\/([0-9a-zA-Z]+)/g;
+      const linkMatch: RegExpExecArray = linkRegEx.exec(value);
+      if (linkMatch && linkMatch.length > 0) {
+        value = linkMatch[1]; // note ID
+        aTitle = 'Open Note';
+        message = 'openNote';
+      }
+
+      return `
+        <a href="#" data-value="${value}" title="${aTitle}" onclick="openLink(event, '${message}')">
+          <span>${this.escapeHtml(title)}</span>
         </a>
       `;
-    } else {
-      // escape html chars and return simple string value
-      return `<span>${this.escapeHtml(value)}</span>`;
     }
+
+    // default: Escape html chars and return simple string value
+    return `<span>${this.escapeHtml(value)}</span>`;
   }
 
   private getSequenceHtml(items: any[]): string {
@@ -157,7 +185,7 @@ export class Panel {
       }
     }
 
-    return `<p>Selected note doesn't contain valid YAML Front Matter data.</p>`;
+    return `<p>Selected note does not contain valid YAML front matter data.</p>`;
   }
 
   /**

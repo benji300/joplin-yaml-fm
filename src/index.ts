@@ -49,7 +49,11 @@ joplin.plugins.register({
 
           // parse string to YAML object
           if (yamlStr) {
-            yaml = YAML.parseDocument(yamlStr, { mapAsMap: true, prettyErrors: true });
+            yaml = YAML.parseDocument(yamlStr, {
+              mapAsMap: true,
+              prettyErrors: true,
+              customTags: ['bool']
+            });
           }
           console.log(`yaml object: ${selectedNote.title}`);
           console.log(`${YAML.stringify(yaml)}`);
