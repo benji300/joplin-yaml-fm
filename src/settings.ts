@@ -35,6 +35,11 @@ export enum SettingDefaults {
   ListStyleType = 'Disc'
 }
 
+export enum PanelVisibility {
+  Always,
+  Automatic
+}
+
 /**
  * Definitions of plugin settings.
  */
@@ -42,6 +47,7 @@ export class Settings {
   // private settings
   // none
   // general settings
+  private _panelVisibility: PanelVisibility = PanelVisibility.Always;
   private _showPanelTitle: boolean = true;
   private _lineHeight: number = 21;
   // advanced settings
@@ -60,6 +66,14 @@ export class Settings {
   }
 
   //#region GETTER
+
+  get panelVisibility(): PanelVisibility {
+    return this._panelVisibility;
+  }
+
+  hasPanelVisibility(visibility: PanelVisibility): boolean {
+    return (this._panelVisibility === visibility);
+  }
 
   get showPanelTitle(): boolean {
     return this._showPanelTitle;
@@ -121,6 +135,19 @@ export class Settings {
     // none
 
     // general settings
+    await joplin.settings.registerSetting('panelVisibility', {
+      value: this._panelVisibility,
+      type: SettingItemType.Int,
+      section: 'yaml.fm.settings',
+      isEnum: true,
+      public: true,
+      options: {
+        '0': 'Always',
+        '1': 'Automatic'
+      },
+      label: 'Panel visibility',
+      description: "Choose whether the panel should always be visible or only when the selected note contains valid YAML front matter data."
+    });
     await joplin.settings.registerSetting('showPanelTitle', {
       value: this._showPanelTitle,
       type: SettingItemType.Bool,
@@ -234,6 +261,7 @@ export class Settings {
    * Update settings. Either all or only changed ones.
    */
   async read(event?: ChangeEvent) {
+    this._panelVisibility = await this.getOrDefault(event, this._panelVisibility, 'panelVisibility');
     this._showPanelTitle = await this.getOrDefault(event, this._showPanelTitle, 'showPanelTitle');
     this._lineHeight = await this.getOrDefault(event, this._lineHeight, 'lineHeight');
     this._fontFamily = await this.getOrDefault(event, this._fontFamily, 'fontFamily', SettingDefaults.FontFamily);

@@ -186,4 +186,14 @@ export class Panel {
     const isVisible: boolean = await joplin.views.panels.visible(this._panel);
     await joplin.views.panels.show(this._panel, (!isVisible));
   }
+
+  /**
+   * Set the panel visibility to the handle value, if not already set.
+   */
+  async forceVisibility(value: boolean) {
+    const isVisible: boolean = await joplin.views.panels.visible(this._panel);
+    if (isVisible != value) {
+      await joplin.views.panels.show(this._panel, (value));
+    }
+  }
 }

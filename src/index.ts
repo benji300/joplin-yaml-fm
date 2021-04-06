@@ -1,7 +1,7 @@
 import joplin from 'api';
 import { MenuItem, MenuItemLocation } from 'api/types';
 import { ChangeEvent } from 'api/JoplinSettings';
-import { SettingDefaults, Settings } from './settings';
+import { PanelVisibility, SettingDefaults, Settings } from './settings';
 import { Panel } from './panel';
 import { DA } from './data';
 import YAML = require('yaml');
@@ -55,12 +55,14 @@ joplin.plugins.register({
           console.log(`${YAML.stringify(yaml)}`);
         }
 
-        // TODO check display panel option here
-        // if yaml == null && option == auto 
-        //   togglePanelvisibility == false
-        //   then also return (to prevent obsolete update of panel)
-        // else
-        //  ensure visibility of panel (and go ahead)
+        // Toggle panel visibility (return if invisible)
+        if (settings.hasPanelVisibility(PanelVisibility.Automatic)) {
+          if (yaml) {
+            await panel.forceVisibility(true);
+          } else {
+            return await panel.forceVisibility(false);
+          }
+        }
 
         await panel.updateWebview(yaml);
       } catch (error) {
