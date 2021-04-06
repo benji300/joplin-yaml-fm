@@ -42,6 +42,7 @@ export class Settings {
   // private settings
   // none
   // general settings
+  private _showPanelTitle: boolean = true;
   private _lineHeight: number = 21;
   // advanced settings
   private _fontFamily: string = SettingDefaults.Default;
@@ -59,6 +60,10 @@ export class Settings {
   }
 
   //#region GETTER
+
+  get showPanelTitle(): boolean {
+    return this._showPanelTitle;
+  }
 
   get lineHeight(): number {
     return this._lineHeight;
@@ -116,6 +121,14 @@ export class Settings {
     // none
 
     // general settings
+    await joplin.settings.registerSetting('showPanelTitle', {
+      value: this._showPanelTitle,
+      type: SettingItemType.Bool,
+      section: 'yaml.fm.settings',
+      public: true,
+      label: 'Show panel title',
+      description: "Display 'FRONT MATTER' title on the panel. Including additional buttons."
+    });
     await joplin.settings.registerSetting('lineHeight', {
       value: this._lineHeight,
       type: SettingItemType.Int,
@@ -221,6 +234,7 @@ export class Settings {
    * Update settings. Either all or only changed ones.
    */
   async read(event?: ChangeEvent) {
+    this._showPanelTitle = await this.getOrDefault(event, this._showPanelTitle, 'showPanelTitle');
     this._lineHeight = await this.getOrDefault(event, this._lineHeight, 'lineHeight');
     this._fontFamily = await this.getOrDefault(event, this._fontFamily, 'fontFamily', SettingDefaults.FontFamily);
     this._fontSize = await this.getOrDefault(event, this._fontSize, 'fontSize', SettingDefaults.FontSize);

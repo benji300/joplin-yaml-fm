@@ -50,6 +50,22 @@ export class Panel {
     `);
   }
 
+  private getPanelTitleHtml(): string {
+    let panelTitleHtml: string = '';
+
+    if (this.sets.showPanelTitle) {
+      panelTitleHtml = `
+        <div id="fm-title">
+          <span class="title" style="color:${this.sets.foreground};">FRONT MATTER</span>
+          <div class="controls">
+            <span class="fas fa-sync-alt" onclick="message('refresh')" title="Refresh panel"></span>
+          </div>
+        </div>
+      `;
+    }
+    return panelTitleHtml;
+  }
+
   private escapeHtml(key: String): String {
     // TODO
     return key;
@@ -125,7 +141,7 @@ export class Panel {
     `;
   }
 
-  private getYamlDataHtml(yaml?: any) {
+  private getFmDataHtml(yaml?: any) {
     if (yaml) {
       if (yaml.contents.items.length > 0) {
         let tableRows: string[] = [];
@@ -149,19 +165,15 @@ export class Panel {
    */
   async updateWebview(yaml?: any) {
     // const selectedNote: any = await joplin.workspace.selectedNote();
-    const yamlDataHtml: string = await this.getYamlDataHtml(yaml);
+    const panelTitleHtml: string = this.getPanelTitleHtml();
+    const fmDataHtml: string = this.getFmDataHtml(yaml);
 
     // add entries to container and push to panel
     await joplin.views.panels.setHtml(this._panel, `
       <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
-        <div id="fm-title">
-          <span class="title" style="color:${this.sets.foreground};">FRONT MATTER</span>
-          <div class="controls">
-            <span class="fas fa-sync-alt" onclick="message('refresh')" title="Refresh panel"></span>
-          </div>
-        </div>
+        ${panelTitleHtml}
         <div id="fm-container">
-          ${yamlDataHtml}
+          ${fmDataHtml}
         </div>
       </div>
     `);
