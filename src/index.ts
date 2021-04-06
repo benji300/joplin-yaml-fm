@@ -72,6 +72,17 @@ joplin.plugins.register({
 
     //#region COMMANDS
 
+    // Command: yamlToggleVisibility
+    // Desc: Toggle panel visibility
+    await COMMANDS.register({
+      name: 'yamlToggleVisibility',
+      label: 'Toggle front matter panel visibility',
+      iconName: 'fas fa-eye-slash',
+      execute: async () => {
+        await panel.toggleVisibility();
+      }
+    });
+
     //#endregion
 
     //#region EVENTS
