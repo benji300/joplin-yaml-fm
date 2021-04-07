@@ -24,7 +24,7 @@ export class Panel {
    * Register plugin panel and update webview for the first time.
    */
   async register() {
-    this._panel = await joplin.views.panels.create('yaml.fm.panel');
+    this._panel = await joplin.views.panels.create('panel');
     await joplin.views.panels.addScript(this._panel, './assets/fontawesome/css/all.min.css');
     await joplin.views.panels.addScript(this._panel, './webview.css');
     await joplin.views.panels.addScript(this._panel, './webview.js');
@@ -159,10 +159,10 @@ export class Panel {
 
     return `
       <tr>
-        <td class="key" style="background:${this.sets.keyBackground};border-color:${this.sets.dividerColor};">
+        <th style="background:${this.sets.keyBackground};border-color:${this.sets.dividerColor};">
           ${this.escapeHtml(item.key.value)}
-        </td>
-        <td class="value" style="background:${this.sets.valueBackground};border-color:${this.sets.dividerColor};">
+        </th>
+        <td style="background:${this.sets.valueBackground};border-color:${this.sets.dividerColor};">
           ${valueHtml}
         </td>
       </tr>
@@ -175,8 +175,9 @@ export class Panel {
         let tableRows: string[] = [];
         yaml.contents.items.forEach(x => { tableRows.push(this.getRowHtml(x)) });
 
+        const marginBottom: number = this.sets.lineHeight * 2;
         return `
-          <table style="color:${this.sets.foreground};margin-bottom:${this.sets.lineHeight}px;">
+          <table style="color:${this.sets.foreground};margin-bottom:${marginBottom}px;">
             <tbody>
               ${tableRows.join('\n')}
             </tbody>

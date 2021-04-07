@@ -109,7 +109,7 @@
 }
 
 html {
-  --padding: 0 5px;
+  --padding: 0;
   --title-height: var(--joplin-toolbar-height);
   --hover-color: var(--joplin-background-color-hover3);
 }
@@ -172,12 +172,12 @@ a:hover {
 #fm-container {
   height: 100% !important;
   overflow-y: overlay;
+  padding: var(--padding);
   width: 100%;
 }
 
 table {
   border-spacing: 0 2px;
-  padding: var(--padding);
   width: 100%;
 }
 tr {
@@ -186,18 +186,15 @@ tr {
 tr:hover td {
   background: var(--hover-color) !important;
 }
-td {
+th {
+  font-weight: 500;
+  text-align: right;
+}
+th, td {
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
   padding: 4px 8px;
-}
-
-td.key {
-  font-weight: 500;
-  text-align: right;
-}
-td.value {
 }
 
 ul {
