@@ -171,11 +171,31 @@ a:hover {
 /* YAML DATA CONTAINER */
 #fm-container {
   height: 100% !important;
-  overflow-y: overlay;
+  overflow-y: auto;
   padding: var(--padding);
   width: 100%;
 }
 
+/* YAML ERRORS/WARNINGS */
+.alert {
+  border-radius: 5px;
+  padding: 5px;
+}
+.alert-error {
+  background: var(--joplin-color-error2);
+  color: var(--joplin-search-marker-color);
+  /* color: var(--joplin-color-bright); */
+  /* border: 1px solid var(--joplin-color-error); */
+}
+.alert-warning {
+  background: var(--joplin-search-marker-background-color);
+  color: var(--joplin-search-marker-color);
+  /* background: var(--joplin-warning-background-color); */
+  /* color: var(--joplin-color-warn); */
+  /* border: 1px solid var(--joplin-color-warn); */
+}
+
+/* FRONT MATTER DATA TABLE */
 table {
   border-spacing: 0 2px;
   width: 100%;
@@ -190,7 +210,8 @@ th {
   font-weight: 500;
   text-align: right;
 }
-th, td {
+th,
+td {
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;

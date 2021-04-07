@@ -1,12 +1,7 @@
 import joplin from 'api';
+import { YAMLError, YAMLWarning, Type } from 'yaml/util';
 import { Settings } from './settings';
 import { Url } from './url';
-// import {
-//   isMap,
-//   isPair,
-//   isScalar,
-//   isSeq
-// } from 'yaml';
 
 export class Panel {
   private _panel: any;
@@ -81,9 +76,10 @@ export class Panel {
   }
 
   private getScalarHtml(value: string): string {
+    if (!value) return '';
 
     // check if its a boolean value
-    const boolRegEx = /^(true|false)/gi;
+    const boolRegEx = /^(true|false)$/gi;
     const boolMatch: RegExpExecArray = boolRegEx.exec(value);
     if (boolMatch && boolMatch.length > 0) {
       const checked: string = (value) ? 'checked' : '';
@@ -147,9 +143,9 @@ export class Panel {
 
     // TODO identify notes: https://eemeli.org/yaml/#identifying-nodes
     if (value) {
-      if (value.type === 'FLOW_SEQ' || value.type === 'SEQ') { // isSeq(value)
+      if (value.type === Type.FLOW_SEQ || value.type === Type.SEQ) { // isSeq(value)
         valueHtml = this.getSequenceHtml(item.value.items);
-      } else if (value.type === 'MAP') {
+      } else if (value.type === Type.MAP) {
         valueHtml = this.getMapHtml(item.value.items);
       } else {
         // default behavior (QUOTE_DOUBLE,) for strings, numbers, booleans, ...
@@ -169,7 +165,45 @@ export class Panel {
     `;
   }
 
-  private getFmDataHtml(yaml?: any) {
+  //   {
+  //     "name": "YAMLSemanticError",
+  //     "message": "Implicit map keys need to be followed by map values at line 10, column 3:\n\n  ojbc\n  ^^^^\n",
+  //     "nodeType": "PLAIN",
+  //     "range": { "start": 126, "end": 130 },
+  //     "linePos": {
+  //       "start": { "line": 10, "col": 3 },
+  //       "end": { "line": 10, "col": 7 }
+  //     }
+  //   }
+  private getYamlErrorHtml(yerr: YAMLError, type: string, monospaceFontFamily: string): string {
+    const message: string = String(yerr.message).replace(/\n/g, '<br>');
+
+    return `
+      <p class="alert alert-${type}" style="font-family:'${monospaceFontFamily}',monospace,sans-serif;">
+        <strong>${yerr.name}:</strong> ${message}
+      <p>
+    `;
+  }
+
+  // print errors and warnings
+  private async getYamlErrorsHtml(yaml?: any): Promise<string> {
+    const errorsHtml: string[] = [];
+    if (yaml) {
+      if (yaml.errors.length > 0 || yaml.warnings.length > 0) {
+        const monospaceFontFamily: string = await this.sets.monospaceFontFamily;
+
+        yaml.errors.forEach((err: YAMLError) => {
+          errorsHtml.push(this.getYamlErrorHtml(err, "error", monospaceFontFamily));
+        });
+        yaml.warnings.forEach((warn: YAMLWarning) => {
+          errorsHtml.push(this.getYamlErrorHtml(warn, "warning", monospaceFontFamily));
+        });
+      }
+    }
+    return errorsHtml.join('\n');
+  }
+
+  private getFmDataHtml(yaml?: any): string {
     if (yaml) {
       if (yaml.contents.items.length > 0) {
         let tableRows: string[] = [];
@@ -195,6 +229,7 @@ export class Panel {
   async updateWebview(yaml?: any) {
     // const selectedNote: any = await joplin.workspace.selectedNote();
     const panelTitleHtml: string = this.getPanelTitleHtml();
+    const yamlErrorsHtml: string = await this.getYamlErrorsHtml(yaml);
     const fmDataHtml: string = this.getFmDataHtml(yaml);
 
     // add entries to container and push to panel
@@ -202,6 +237,7 @@ export class Panel {
       <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
         ${panelTitleHtml}
         <div id="fm-container">
+          ${yamlErrorsHtml}
           ${fmDataHtml}
         </div>
       </div>

@@ -119,6 +119,10 @@ export class Settings {
 
   //#region GLOBAL VALUES
 
+  get monospaceFontFamily(): Promise<string> {
+    return joplin.settings.globalValue('style.editor.monospaceFontFamily');
+  }
+
   //#endregion
 
   /**
