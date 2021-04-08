@@ -75,6 +75,47 @@ export class Panel {
     //   .replace(/'/g, "&#039;");
   }
 
+  //   {
+  //     "name": "YAMLSemanticError",
+  //     "message": "Implicit map keys need to be followed by map values at line 10, column 3:\n\n  ojbc\n  ^^^^\n",
+  //     "nodeType": "PLAIN",
+  //     "range": { "start": 126, "end": 130 },
+  //     "linePos": {
+  //       "start": { "line": 10, "col": 3 },
+  //       "end": { "line": 10, "col": 7 }
+  //     }
+  //   }
+  private getYamlErrorHtml(yerr: YAMLError, type: string, monospaceFontFamily: string): string {
+    const msgHtml: string[] = [];
+    const msgLines: string[] = String(yerr.message).split(/\n/g);
+    msgLines.forEach(msg => { msgHtml.push(`<span>${msg}</span>`) });
+
+    return `
+      <p class="alert alert-${type}" style="font-family:'${monospaceFontFamily}',monospace,sans-serif;">
+        <span><strong>${yerr.name}:</strong></span>
+        ${msgHtml.join('<br>')}
+      <p>
+    `;
+  }
+
+  // print errors and warnings
+  private async getYamlErrorsHtml(yaml?: any): Promise<string> {
+    const errorsHtml: string[] = [];
+    if (yaml) {
+      if (yaml.errors.length > 0 || yaml.warnings.length > 0) {
+        const monospaceFontFamily: string = await this.sets.monospaceFontFamily;
+
+        yaml.errors.forEach((err: YAMLError) => {
+          errorsHtml.push(this.getYamlErrorHtml(err, "error", monospaceFontFamily));
+        });
+        yaml.warnings.forEach((warn: YAMLWarning) => {
+          errorsHtml.push(this.getYamlErrorHtml(warn, "warning", monospaceFontFamily));
+        });
+      }
+    }
+    return errorsHtml.join('\n');
+  }
+
   private getScalarHtml(value: string): string {
     if (!value) return '';
 
@@ -129,15 +170,10 @@ export class Panel {
   }
 
   private getMapHtml(items: any[]) {
-    // TODO table in value td aufbauen
-    // rows.push(this.getRowHtml(item.key.value));
-    // for (let i: number = 0; i < item.value.items.length; i++) {
-    //   rows.push(this.getRowHtml(item.value.items[i].key, item.value.items[i].value, 1));
-    // }
-    return 'TODO Map HTML';
+    return this.getTableHtml(items, 0);
   }
 
-  private getRowHtml(item: any, indent?: number): string {
+  private getTableRowHtml(item: any, indent?: number): string {
     const value: any = item.value;
     let valueHtml: string = '';
 
@@ -145,7 +181,7 @@ export class Panel {
     if (value) {
       if (value.type === Type.FLOW_SEQ || value.type === Type.SEQ) { // isSeq(value)
         valueHtml = this.getSequenceHtml(item.value.items);
-      } else if (value.type === Type.MAP) {
+      } else if (value.type === Type.FLOW_MAP || value.type === Type.MAP) {
         valueHtml = this.getMapHtml(item.value.items);
       } else {
         // default behavior (QUOTE_DOUBLE,) for strings, numbers, booleans, ...
@@ -165,61 +201,24 @@ export class Panel {
     `;
   }
 
-  //   {
-  //     "name": "YAMLSemanticError",
-  //     "message": "Implicit map keys need to be followed by map values at line 10, column 3:\n\n  ojbc\n  ^^^^\n",
-  //     "nodeType": "PLAIN",
-  //     "range": { "start": 126, "end": 130 },
-  //     "linePos": {
-  //       "start": { "line": 10, "col": 3 },
-  //       "end": { "line": 10, "col": 7 }
-  //     }
-  //   }
-  private getYamlErrorHtml(yerr: YAMLError, type: string, monospaceFontFamily: string): string {
-    const message: string = String(yerr.message).replace(/\n/g, '<br>');
+  private getTableHtml(items: any[], marginBottom: number): string {
+    let tableRows: string[] = [];
+    items.forEach(x => { tableRows.push(this.getTableRowHtml(x)) });
 
     return `
-      <p class="alert alert-${type}" style="font-family:'${monospaceFontFamily}',monospace,sans-serif;">
-        <strong>${yerr.name}:</strong> ${message}
-      <p>
+      <table style="color:${this.sets.foreground};margin-bottom:${marginBottom}px;">
+        <tbody>
+          ${tableRows.join('\n')}
+        </tbody>
+      </table>
     `;
   }
 
-  // print errors and warnings
-  private async getYamlErrorsHtml(yaml?: any): Promise<string> {
-    const errorsHtml: string[] = [];
-    if (yaml) {
-      if (yaml.errors.length > 0 || yaml.warnings.length > 0) {
-        const monospaceFontFamily: string = await this.sets.monospaceFontFamily;
-
-        yaml.errors.forEach((err: YAMLError) => {
-          errorsHtml.push(this.getYamlErrorHtml(err, "error", monospaceFontFamily));
-        });
-        yaml.warnings.forEach((warn: YAMLWarning) => {
-          errorsHtml.push(this.getYamlErrorHtml(warn, "warning", monospaceFontFamily));
-        });
-      }
-    }
-    return errorsHtml.join('\n');
-  }
-
   private getFmDataHtml(yaml?: any): string {
-    if (yaml) {
-      if (yaml.contents.items.length > 0) {
-        let tableRows: string[] = [];
-        yaml.contents.items.forEach(x => { tableRows.push(this.getRowHtml(x)) });
-
-        const marginBottom: number = this.sets.lineHeight * 2;
-        return `
-          <table style="color:${this.sets.foreground};margin-bottom:${marginBottom}px;">
-            <tbody>
-              ${tableRows.join('\n')}
-            </tbody>
-          </table>
-        `;
-      }
+    if (yaml && yaml.contents.items.length > 0) {
+      const marginBottom: number = this.sets.lineHeight * 2;
+      return this.getTableHtml(yaml.contents.items, marginBottom);
     }
-
     return `<p>Selected note does not contain valid YAML front matter data.</p>`;
   }
 
@@ -237,8 +236,10 @@ export class Panel {
       <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
         ${panelTitleHtml}
         <div id="fm-container">
-          ${yamlErrorsHtml}
-          ${fmDataHtml}
+          <div id="fm-inner">
+            ${yamlErrorsHtml}
+            ${fmDataHtml}
+          </div>
         </div>
       </div>
     `);
