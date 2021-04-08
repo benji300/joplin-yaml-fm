@@ -1,4 +1,5 @@
 import joplin from 'api';
+import { Scalar, YAMLMap, YAMLSeq } from 'yaml/types';
 import { YAMLError, YAMLWarning, Type } from 'yaml/util';
 import { Settings } from './settings';
 import { Url } from './url';
@@ -116,14 +117,15 @@ export class Panel {
     return errorsHtml.join('\n');
   }
 
-  private getScalarHtml(value: string): string {
-    if (!value) return '';
+  private getScalarHtml(scalar: Scalar): string {
+    if (!scalar.value) return '';
+    const val:string = scalar.value;
 
     // check if its a boolean value
     const boolRegEx = /^(true|false)$/gi;
-    const boolMatch: RegExpExecArray = boolRegEx.exec(value);
+    const boolMatch: RegExpExecArray = boolRegEx.exec(val);
     if (boolMatch && boolMatch.length > 0) {
-      const checked: string = (value) ? 'checked' : '';
+      const checked: string = (val) ? 'checked' : '';
       return `
         <input type="checkbox" readonly ${checked}></input>
       `;
@@ -131,7 +133,7 @@ export class Panel {
 
     // check if its a link (external or internal)
     const urlRegEx = /^\[(.*)\]\((.*)\)/g;
-    const urlMatch: RegExpExecArray = urlRegEx.exec(value);
+    const urlMatch: RegExpExecArray = urlRegEx.exec(val);
     if (urlMatch && urlMatch.length > 0) {
       const title: string = urlMatch[1];
       let value: string = urlMatch[2];
@@ -155,12 +157,12 @@ export class Panel {
     }
 
     // default: Escape html chars and return simple string value
-    return `<span>${this.escapeHtml(value)}</span>`;
+    return `<span>${this.escapeHtml(val)}</span>`;
   }
 
-  private getSequenceHtml(items: any[]): string {
+  private getSequenceHtml(seq: YAMLSeq): string {
     const itemsHtml: string[] = [];
-    items.forEach(x => { itemsHtml.push(`<li>${this.getScalarHtml(x.value)}</li>`) });
+    seq.items.forEach(x => { itemsHtml.push(`<li>${this.getScalarHtml(x)}</li>`) });
 
     return `
       <ul style="list-style-type:${this.sets.listStyleType};">
@@ -169,8 +171,8 @@ export class Panel {
     `;
   }
 
-  private getMapHtml(items: any[]) {
-    return this.getTableHtml(items, 0);
+  private getMapHtml(map: YAMLMap) {
+    return this.getTableHtml(map.items, 0);
   }
 
   private getTableRowHtml(item: any, indent?: number): string {
@@ -180,12 +182,12 @@ export class Panel {
     // TODO identify notes: https://eemeli.org/yaml/#identifying-nodes
     if (value) {
       if (value.type === Type.FLOW_SEQ || value.type === Type.SEQ) { // isSeq(value)
-        valueHtml = this.getSequenceHtml(item.value.items);
+        valueHtml = this.getSequenceHtml(value);
       } else if (value.type === Type.FLOW_MAP || value.type === Type.MAP) {
-        valueHtml = this.getMapHtml(item.value.items);
+        valueHtml = this.getMapHtml(value);
       } else {
         // default behavior (QUOTE_DOUBLE,) for strings, numbers, booleans, ...
-        valueHtml = this.getScalarHtml(value.value);
+        valueHtml = this.getScalarHtml(value);
       }
     }
 
