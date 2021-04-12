@@ -55,8 +55,7 @@ joplin.plugins.register({
               customTags: ['bool']
             });
           }
-          console.log(`yaml object: ${selectedNote.title}`);
-          console.log(`${YAML.stringify(yaml)}`);
+          console.debug(`YAML object of note '${selectedNote.title}':\n${YAML.stringify(yaml)}`);
         }
 
         // Toggle panel visibility (return if invisible)

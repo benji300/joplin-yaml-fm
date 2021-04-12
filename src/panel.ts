@@ -65,15 +65,13 @@ export class Panel {
     return panelTitleHtml;
   }
 
-  private escapeHtml(key: String): String {
-    // TODO
-    return key;
-    // return key
-    //   .replace(/&/g, "&amp;")
-    //   .replace(/</g, "&lt;")
-    //   .replace(/>/g, "&gt;")
-    //   .replace(/"/g, "&quot;")
-    //   .replace(/'/g, "&#039;");
+  private escapeHtml(key: any): String {
+    return String(key)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
   }
 
   //   {
@@ -119,7 +117,7 @@ export class Panel {
 
   private getScalarHtml(scalar: Scalar): string {
     if (!scalar.value) return '';
-    const val:string = scalar.value;
+    const val: string = scalar.value;
 
     // check if its a boolean value
     const boolRegEx = /^(true|false)$/gi;
