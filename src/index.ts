@@ -99,8 +99,21 @@ joplin.plugins.register({
       }
     });
 
+    // prepare commands menu
+    const commandsSubMenu: MenuItem[] = [
+      {
+        commandName: 'yamlRefresh',
+        label: 'Refresh panel'
+      },
+      {
+        commandName: 'yamlToggleVisibility',
+        label: 'Toggle panel visibility'
+      }
+    ];
+    await joplin.views.menus.create('toolsYaml', 'YAML Front Matter', commandsSubMenu, MenuItemLocation.Tools);
+
     // add commands to note menu
-    await joplin.views.menuItems.create('noteMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.Note);
+    // await joplin.views.menuItems.create('noteMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.Note);
 
     // add commands to editor context menu
     await joplin.views.menuItems.create('editorContextMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.EditorContextMenu);

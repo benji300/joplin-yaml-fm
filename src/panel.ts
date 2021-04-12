@@ -115,6 +115,27 @@ export class Panel {
     return errorsHtml.join('\n');
   }
 
+  private getLinkHtml(href: string, title: string): string {
+    let handlerMsg: string = 'openUrl';
+    let value: string = href;
+    let tooltip: string = href;
+
+    // check if it is an internal link
+    const linkRegEx = /^:\/([0-9a-zA-Z]+)/g;
+    const linkMatch: RegExpExecArray = linkRegEx.exec(href);
+    if (linkMatch && linkMatch.length > 0) {
+      value = linkMatch[1]; // note ID
+      tooltip = 'Open Note';
+      handlerMsg = 'openNote';
+    }
+
+    return `
+      <a href="#" data-value="${href}" title="${tooltip}" onclick="openLink(event, '${handlerMsg}')">
+        <span>${this.escapeHtml(title)}</span>
+      </a>
+    `;
+  }
+
   private getScalarHtml(scalar: Scalar): string {
     if (!scalar.value) return '';
     const val: string = scalar.value;
@@ -129,29 +150,19 @@ export class Panel {
       `;
     }
 
-    // check if its a link (external or internal)
-    const urlRegEx = /^\[(.*)\]\((.*)\)/g;
+    // check if its a plain url
+    try {
+      const plainUrl: URL = new URL(val);
+      if (plainUrl && plainUrl.href) {
+        return this.getLinkHtml(plainUrl.href, plainUrl.hostname);
+      }
+    } catch (e) { }
+
+    // check if its a markdown link (external or internal)
+    const urlRegEx = /^[\?]?\[(.*)\]\((.*)\)/g;
     const urlMatch: RegExpExecArray = urlRegEx.exec(val);
     if (urlMatch && urlMatch.length > 0) {
-      const title: string = urlMatch[1];
-      let value: string = urlMatch[2];
-      let aTitle: string = value;
-      let message: string = 'openUrl';
-
-      // check if it is an internal link
-      const linkRegEx = /^:\/([0-9a-zA-Z]+)/g;
-      const linkMatch: RegExpExecArray = linkRegEx.exec(value);
-      if (linkMatch && linkMatch.length > 0) {
-        value = linkMatch[1]; // note ID
-        aTitle = 'Open Note';
-        message = 'openNote';
-      }
-
-      return `
-        <a href="#" data-value="${value}" title="${aTitle}" onclick="openLink(event, '${message}')">
-          <span>${this.escapeHtml(title)}</span>
-        </a>
-      `;
+      return this.getLinkHtml(urlMatch[2], urlMatch[1]);
     }
 
     // default: Escape html chars and return simple string value
