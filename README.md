@@ -2,7 +2,6 @@
 
 YAML front matter is a plugin to extend the UX and UI of [Joplin's](https://joplinapp.org/) desktop application.
 
-// TODO link to front matter website?
 It allows to display note YAML front matter metadata in a separate panel.
 
 > :warning: **CAUTION** - Requires Joplin **v1.7.10** or newer
@@ -53,7 +52,6 @@ By default the panel will be on the right side of the screen, this can be adjust
 - `View > Change application layout`
 - Use the arrow keys (the displayed ones, not keyboard keys) to move the panel at the desired position
 - Move the splitter to reach the desired height/width of the panel
-  - As soon as the width of the panel goes below `400px`, it automatically switches from horizontal to vertical layout
 - Press `ESC` to save the layout and return to normal mode
 
 ### Add front matter data to note
@@ -64,21 +62,14 @@ TODO
 
 This plugin provides additional commands as described in the following table.
 
-| Command Label             | Command ID             | Description                                                                                   | Menu contexts                                                       |
-| ------------------------- | ---------------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| Pin note to Tabs          | `tabsPinNote`          | Pin selected note(s) to the tabs.                                                             | `Tools>Tabs`, `NoteListContext`, `EditorContext`, `Command palette` |
-| Unpin note from Tabs      | `tabsUnpinNote`        | Unpin selected note(s) from the tabs.                                                         | `Tools>Tabs`, `Command palette`                                     |
-| Switch to last active Tab | `tabsSwitchLastActive` | Switch to the last active tab, i.e. to previous selected note.                                | `Tools>Tabs`, `Command palette`                                     |
-| Switch to left Tab        | `tabsSwitchLeft`       | Switch to the left tab next to the active, i.e. select the left note.                         | `Tools>Tabs`, `Command palette`                                     |
-| Switch to right Tab       | `tabsSwitchRight`      | Switch to the right tab next to the active, i.e. select the right note.                       | `Tools>Tabs`, `Command palette`                                     |
-| Move active Tab left      | `tabsMoveLeft`         | Move active tab one position to the left.                                                     | `Tools>Tabs`, `Command palette`                                     |
-| Move active Tab right     | `tabsMoveRight`        | Move active tab one position to the right.                                                    | `Tools>Tabs`, `Command palette`                                     |
-| Remove all pinned Tabs    | `tabsClear`            | Remove all pinned tabs. In case no note is selected, the tabs list might be empty afterwards. | `Tools>Tabs`, `Command palette`                                     |
-| Toggle Tabs visibility    | `tabsToggleVisibility` | Toggle panel visibility.                                                                      | `Tools>Tabs`, `Command palette`                                     |
+| Command Label                        | Command ID             | Description                                                               | Menu contexts                                |
+| ------------------------------------ | ---------------------- | ------------------------------------------------------------------------- | -------------------------------------------- |
+| Refresh front matter panel           | `yamlRefresh`          | Refresh YAML front matter panel with data from the current selected note. | `Tools>YAML Front Matter`, `Command palette` |
+| Toggle front matter panel visibility | `yamlToggleVisibility` | Toggle panel visibility.                                                  | `Tools>YAML Front Matter`, `Command palette` |
 
 ### Keyboard shortcuts
 
-Keyboard shortcuts can be assigned in user options via `Tools > Options > Keyboard Shortcuts` to all [commands](#commands) which are assigned to the `Note` menu context.
+Keyboard shortcuts can be assigned in user options via `Tools > Options > Keyboard Shortcuts` to all [commands](#commands) which are assigned to the `Tools>YAML Front Matter` menu context.
 In the keyboard shortcut editor, search for the command label where shortcuts shall be added.
 
 ## User options
