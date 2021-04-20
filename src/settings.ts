@@ -131,7 +131,7 @@ export class Settings {
   async register() {
     // settings section
     await joplin.settings.registerSection('yaml.fm.settings', {
-      label: 'YAML Front Matter',
+      label: 'Front Matter',
       iconName: 'fas fa-info-circle'
     });
 

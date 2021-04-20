@@ -4,7 +4,7 @@
   "app_min_version": "1.7.10",
   "version": "1.0.0",
   "name": "YAML Front Matter",
-  "description": "Display note metadata in panel with YAML front matter.",
+  "description": "Display YAML front matter metadata in separate panel.",
   "author": "Benji300",
   "homepage_url": "https://github.com/benji300/joplin-yaml-fm",
   "repository_url": "https://github.com/benji300/joplin-yaml-fm",

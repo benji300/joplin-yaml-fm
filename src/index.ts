@@ -110,7 +110,7 @@ joplin.plugins.register({
         label: 'Toggle panel visibility'
       }
     ];
-    await joplin.views.menus.create('toolsYaml', 'YAML Front Matter', commandsSubMenu, MenuItemLocation.Tools);
+    await joplin.views.menus.create('toolsYaml', 'Front Matter', commandsSubMenu, MenuItemLocation.Tools);
 
     // add commands to note menu
     // await joplin.views.menuItems.create('noteMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.Note);

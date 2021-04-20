@@ -1,22 +1,20 @@
 # Joplin YAML Front Matter
 
-YAML front matter is a plugin to extend the UX and UI of [Joplin's](https://joplinapp.org/) desktop application.
+YAML Front Matter is a plugin to extend the UX and UI of [Joplin's](https://joplinapp.org/) desktop application.
 
-It allows to display note YAML front matter metadata in a separate panel.
+It allows to display YAML front matter metadata of the selected note in a separate panel.
 
 > :warning: **CAUTION** - Requires Joplin **v1.7.10** or newer
 
 ## Features
 
-- TODO
+- Display YAML front matter metadata from selected note in a separate panel
+- Support two [additional identifying tokens](#additional-identifying-tokens) for front matter
+- Display YAML syntax errors on panel
+- Toggle panel visibility (configurable)
+  - Manually via command
+  - Automatically if selected note contains front matter or not
 - [Configurable](#user-options) style attributes
-
-### Screenshots
-
-TODO screenshot of note with fm + panel (fenced)
-TODO screenshot of note with fm + panel (comment)
-TODO screenshot of note with fm + panel (default ---)
-TODO screenshot of options view
 
 ## Installation
 
@@ -54,27 +52,117 @@ By default the panel will be on the right side of the screen, this can be adjust
 - Move the splitter to reach the desired height/width of the panel
 - Press `ESC` to save the layout and return to normal mode
 
-### Add front matter data to note
+### Create front matter data
 
-TODO
+- Add a block enclosed by three hyphens (`---`) to the note content
+  - Or use one the [additional identifying tokens](#additional-identifying-tokens)
+- The block must start at the very first line of the note content
+- This block must contain data in a valid [YAML Syntax](https://learnxinyminutes.com/docs/yaml/)
+  - Where the following types are recognized:
+    - Scalar types
+    - Sequences
+    - Collections/Maps (only one level of nesting allowed)
+
+The following front matter block:
+
+```yaml
+1  ---
+2  author: Benji300
+3  title: My front matter data
+4  date: 2021-02-21
+5  ---
+```
+
+will be rendered to the following in the plugin's panel:
+
+TODO <screenshot> nur panel
+
+### Additional Identifying Tokens
+
+Since Joplin interprets lines followed by `---` as headings, the last line of the front matter block may be displayed in an unexpected way.
+That's why the plugin supports two additional identifying tokens in addition to the default.
+However, these two tokens are not compatible with the front matter "standard" and thus can only be used within Joplin.
+Both must also start on the first line and the content must also be YAML.
+
+#### Fenced code block
+
+The code block start token must contain the `yaml` syntax notation.
+
+````yaml
+1  ```yaml
+2  author: Benji300
+3  title: My front matter data
+4  date: 2021-02-21
+5  ```
+````
+
+TODO screenshot
+
+#### HTML Comment
+
+The comment start token must be followed by `yaml`.
+
+```yaml
+1  <!--yaml
+2  author: Benji300
+3  title: My front matter data
+4  date: 2021-02-21
+5  -->
+```
+
+TODO screenshot
+
+### Examples
+
+#### Links
+
+The plugin also supports clickable links in the front matter panel.
+To enable this, links must be specified in an appropriate format which is shown in the example below.
+
+> Currently, markdown links must be enclosed by double quotes.
+
+> On click the links will be opened with the default app (e.g. Browser).
+
+````yaml
+1  ```yaml
+2  plain-links: https://github.com/benji300/joplin-yaml-fm
+3  # markdown links
+4  external: "[Joplin App](https://joplinapp.org/)"
+5  internal: "[Another Note](:/1b10f054b15440878f34401fb48df38e)"
+6  ```
+````
+
+TODO screenshot
+
+#### Booleans
+
+TODO booleans (fenced)
+
+#### Many values
+
+TODO code block + screenshot of many different values (default ---)
+
+#### YAML Error
+
+TODO Erroneous yaml syntax
 
 ## Commands
 
 This plugin provides additional commands as described in the following table.
 
-| Command Label                        | Command ID             | Description                                                               | Menu contexts                                |
-| ------------------------------------ | ---------------------- | ------------------------------------------------------------------------- | -------------------------------------------- |
-| Refresh front matter panel           | `yamlRefresh`          | Refresh YAML front matter panel with data from the current selected note. | `Tools>YAML Front Matter`, `Command palette` |
-| Toggle front matter panel visibility | `yamlToggleVisibility` | Toggle panel visibility.                                                  | `Tools>YAML Front Matter`, `Command palette` |
+| Command Label                        | Command ID             | Description                                                               | Menu contexts                           |
+| ------------------------------------ | ---------------------- | ------------------------------------------------------------------------- | --------------------------------------- |
+| Refresh front matter panel           | `yamlRefresh`          | Refresh YAML front matter panel with data from the current selected note. | `Tools>Front Matter`, `Command palette` |
+| Toggle front matter panel visibility | `yamlToggleVisibility` | Toggle panel visibility.                                                  | `Tools>Front Matter`, `Command palette` |
 
 ### Keyboard shortcuts
 
-Keyboard shortcuts can be assigned in user options via `Tools > Options > Keyboard Shortcuts` to all [commands](#commands) which are assigned to the `Tools>YAML Front Matter` menu context.
+Keyboard shortcuts can be assigned in user options via `Options > Keyboard Shortcuts` to all [commands](#commands) which are assigned to the `Tools>Front Matter` menu context.
 In the keyboard shortcut editor, search for the command label where shortcuts shall be added.
 
 ## User options
 
-This plugin adds provides user options which can be changed via `Tools > Options > YAML Front Matter` (Windows App).
+This plugin adds provides user options which can be changed via `Options > Front Matter`.
 
 > **NOTE** - If `default` is set for an advanced style setting, the corresponding default color, font family, etc. will be used to match the common App look.
 

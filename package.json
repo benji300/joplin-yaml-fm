@@ -1,7 +1,7 @@
 {
   "name": "joplin-plugin-yaml-fm",
   "version": "1.0.0",
-  "description": "Display note metadata in panel with YAML front matter.",
+  "description": "Display YAML front matter metadata in separate panel.",
   "author": "Benji300",
   "homepage": "https://github.com/benji300/joplin-yaml-fm",
   "bugs": {
