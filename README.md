@@ -66,11 +66,18 @@ By default the panel will be on the right side of the screen, this can be adjust
 The following front matter block (without the line numbers):
 
 ```yaml
-1  ---
-2  author: Benji300
-3  title: My front matter data
-4  date: 2021-02-21
-5  ---
+1   ---
+2   title: "My front matter data"
+3   author:
+4     name: My name
+5     email: my-name@domain.com
+6   keywords:
+7     - apple
+8     - fruit
+9     - red
+10  date: 2021-02-21
+11  read: true
+12  ---
 ```
 
 will be rendered to the following in the front matter panel:
@@ -147,10 +154,6 @@ Booleans will be rendered as read-only checkboxes in the front matter panel.
 
 TODO screenshot (split screen)
 
-#### Many values
-
-TODO code block + screenshot of many different values (default ---)
-
 #### YAML Error
 
 TODO Erroneous yaml syntax
@@ -159,10 +162,10 @@ TODO Erroneous yaml syntax
 
 This plugin provides additional commands as described in the following table.
 
-| Command Label                        | Command ID             | Description                                                               | Menu contexts                           |
-| ------------------------------------ | ---------------------- | ------------------------------------------------------------------------- | --------------------------------------- |
-| Refresh front matter panel           | `yamlRefresh`          | Refresh YAML front matter panel with data from the current selected note. | `Tools>Front Matter`, `Command palette` |
-| Toggle front matter panel visibility | `yamlToggleVisibility` | Toggle panel visibility.                                                  | `Tools>Front Matter`, `Command palette` |
+| Command Label                        | Command ID            | Description                                                          | Menu contexts                           |
+| ------------------------------------ | --------------------- | -------------------------------------------------------------------- | --------------------------------------- |
+| Refresh front matter panel           | `yfmRefresh`          | Refresh front matter panel with data from the current selected note. | `Tools>Front Matter`, `Command palette` |
+| Toggle front matter panel visibility | `yfmToggleVisibility` | Toggle panel visibility.                                             | `Tools>Front Matter`, `Command palette` |
 
 ### Keyboard shortcuts
 

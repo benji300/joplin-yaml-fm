@@ -28,7 +28,7 @@ export class Panel {
     // message handler
     await joplin.views.panels.onMessage(this._panel, async (message: any) => {
       if (message.name === 'refresh') {
-        await joplin.commands.execute('yamlRefresh');
+        await joplin.commands.execute('yfmRefresh');
       }
       if (message.name === 'openNote') {
         await joplin.commands.execute('openNote', message.value);

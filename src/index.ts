@@ -77,10 +77,10 @@ joplin.plugins.register({
 
     //#region COMMANDS
 
-    // Command: yamlRefresh
+    // Command: yfmRefresh
     // Desc: Toggle panel visibility
     await COMMANDS.register({
-      name: 'yamlRefresh',
+      name: 'yfmRefresh',
       label: 'Refresh front matter panel',
       iconName: 'fas fa-sync-alt',
       execute: async () => {
@@ -88,10 +88,10 @@ joplin.plugins.register({
       }
     });
 
-    // Command: yamlToggleVisibility
+    // Command: yfmToggleVisibility
     // Desc: Toggle panel visibility
     await COMMANDS.register({
-      name: 'yamlToggleVisibility',
+      name: 'yfmToggleVisibility',
       label: 'Toggle front matter panel visibility',
       iconName: 'fas fa-eye-slash',
       execute: async () => {
@@ -102,21 +102,21 @@ joplin.plugins.register({
     // prepare commands menu
     const commandsSubMenu: MenuItem[] = [
       {
-        commandName: 'yamlRefresh',
+        commandName: 'yfmRefresh',
         label: 'Refresh panel'
       },
       {
-        commandName: 'yamlToggleVisibility',
+        commandName: 'yfmToggleVisibility',
         label: 'Toggle panel visibility'
       }
     ];
     await joplin.views.menus.create('toolsYaml', 'Front Matter', commandsSubMenu, MenuItemLocation.Tools);
 
     // add commands to note menu
-    // await joplin.views.menuItems.create('noteMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.Note);
+    // await joplin.views.menuItems.create('noteMenuyfmRefresh', 'yfmRefresh', MenuItemLocation.Note);
 
     // add commands to editor context menu
-    await joplin.views.menuItems.create('editorContextMenuYamlRefresh', 'yamlRefresh', MenuItemLocation.EditorContextMenu);
+    await joplin.views.menuItems.create('editorContextMenuyfmRefresh', 'yfmRefresh', MenuItemLocation.EditorContextMenu);
 
     //#endregion
 
