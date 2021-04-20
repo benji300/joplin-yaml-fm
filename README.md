@@ -63,7 +63,7 @@ By default the panel will be on the right side of the screen, this can be adjust
     - Sequences
     - Collections/Maps (only one level of nesting allowed)
 
-The following front matter block:
+The following front matter block (without the line numbers):
 
 ```yaml
 1  ---
@@ -73,7 +73,7 @@ The following front matter block:
 5  ---
 ```
 
-will be rendered to the following in the plugin's panel:
+will be rendered to the following in the front matter panel:
 
 TODO <screenshot> nur panel
 
@@ -96,7 +96,7 @@ The code block start token must contain the `yaml` syntax notation.
 5  ```
 ````
 
-TODO screenshot
+TODO screenshot (split screen)
 
 #### HTML Comment
 
@@ -110,14 +110,14 @@ The comment start token must be followed by `yaml`.
 5  -->
 ```
 
-TODO screenshot
+TODO screenshot (split screen)
 
 ### Examples
 
 #### Links
 
 The plugin also supports clickable links in the front matter panel.
-To enable this, links must be specified in an appropriate format which is shown in the example below.
+To enable this, links must be specified in one of the following formats.
 
 > Currently, markdown links must be enclosed by double quotes.
 
