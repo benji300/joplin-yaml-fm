@@ -132,11 +132,20 @@ To enable this, links must be specified in one of the following formats.
 6  ```
 ````
 
-TODO screenshot
+TODO screenshot (split screen)
 
 #### Booleans
 
-TODO booleans (fenced)
+Booleans will be rendered as read-only checkboxes in the front matter panel.
+
+````yaml
+1  ```yaml
+2  true: true
+3  false: false
+4  ```
+````
+
+TODO screenshot (split screen)
 
 #### Many values
 
