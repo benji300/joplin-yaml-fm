@@ -113,10 +113,10 @@ joplin.plugins.register({
     await joplin.views.menus.create('toolsYaml', 'Front Matter', commandsSubMenu, MenuItemLocation.Tools);
 
     // add commands to note menu
-    // await joplin.views.menuItems.create('noteMenuyfmRefresh', 'yfmRefresh', MenuItemLocation.Note);
+    // await joplin.views.menuItems.create('noteMenuYfmRefresh', 'yfmRefresh', MenuItemLocation.Note);
 
     // add commands to editor context menu
-    await joplin.views.menuItems.create('editorContextMenuyfmRefresh', 'yfmRefresh', MenuItemLocation.EditorContextMenu);
+    await joplin.views.menuItems.create('editorContextMenuYfmRefresh', 'yfmRefresh', MenuItemLocation.EditorContextMenu);
 
     //#endregion
 
