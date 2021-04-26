@@ -67,22 +67,21 @@ The following front matter block (without the line numbers):
 
 ```yaml
 1   ---
-2   title: "My front matter data"
+2   title: "Max & Moritz"
+3   desc: "Eine Bubengeschichte in sieben Streichen"
 3   author:
-4     name: My name
-5     email: my-name@domain.com
+4     name: Willhelm Busch
+5     born: 1832-04-15
 6   keywords:
-7     - apple
-8     - fruit
-9     - red
-10  date: 2021-02-21
+7     - Bildergeschichte
+8     - Kinderbuch
 11  read: true
 12  ---
 ```
 
 will be rendered to the following in the front matter panel:
 
-TODO <screenshot> nur panel
+![full-example](./assets/example-full.png)
 
 ### Additional Identifying Tokens
 
@@ -97,13 +96,13 @@ The code block start token must contain the `yaml` syntax notation.
 
 ````yaml
 1  ```yaml
-2  author: Benji300
-3  title: My front matter data
-4  date: 2021-02-21
-5  ```
+2  title: "Max & Moritz"
+3  desc: "Eine Bubengeschichte in sieben Streichen"
+3  author: Willhelm Busch
+4  ```
 ````
 
-TODO screenshot (split screen)
+![fenced-example](./assets/example-fenced.png)
 
 #### HTML Comment
 
@@ -111,13 +110,13 @@ The comment start token must be followed by `yaml`.
 
 ```yaml
 1  <!--yaml
-2  author: Benji300
-3  title: My front matter data
-4  date: 2021-02-21
+2  title: "Max & Moritz"
+3  desc: "Eine Bubengeschichte in sieben Streichen"
+3  author: Willhelm Busch
 5  -->
 ```
 
-TODO screenshot (split screen)
+![comment-example](./assets/example-comment.png)
 
 ### Examples
 
@@ -126,7 +125,7 @@ TODO screenshot (split screen)
 The plugin also supports clickable links in the front matter panel.
 To enable this, links must be specified in one of the following formats.
 
-> Currently, markdown links must be enclosed by double quotes.
+> Markdown links must be enclosed by double quotes.
 
 > On click the links will be opened with the default app (e.g. Browser).
 
@@ -139,7 +138,7 @@ To enable this, links must be specified in one of the following formats.
 6  ```
 ````
 
-TODO screenshot (split screen)
+![links-example](./assets/example-links.png)
 
 #### Booleans
 
@@ -152,11 +151,11 @@ Booleans will be rendered as read-only checkboxes in the front matter panel.
 4  ```
 ````
 
-TODO screenshot (split screen)
+#### YAML Errors & Warnings
 
-#### YAML Error
+YAML errors and warnings are also shown on the panel.
 
-TODO Erroneous yaml syntax
+![errors-example](./assets/example-error-warning.png)
 
 ## Commands
 
@@ -181,7 +180,7 @@ This plugin adds provides user options which can be changed via `Options > Front
 ## Feedback
 
 - :question: Need help?
-  - Ask a question on the [Joplin Forum](https://discourse.joplinapp.org/c/plugins/18) (TODO: Paste link to thread)
+  - Ask a question on the [Joplin Forum](https://discourse.joplinapp.org/c/plugins/18)
 - :bulb: An idea to improve or enhance the plugin?
   - Start a new discussion on the [Forum](https://discourse.joplinapp.org/t/plugin-yaml-fm/12752) or upvote [popular feature requests](https://github.com/benji300/joplin-yaml-fm/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement+sort%3Areactions-%2B1-desc+)
 - :bug: Found a bug?
