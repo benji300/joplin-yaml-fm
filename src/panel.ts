@@ -21,7 +21,6 @@ export class Panel {
    */
   async register() {
     this._panel = await joplin.views.panels.create('panel');
-    await joplin.views.panels.addScript(this._panel, './assets/fontawesome/css/all.min.css');
     await joplin.views.panels.addScript(this._panel, './webview.css');
     await joplin.views.panels.addScript(this._panel, './webview.js');
 
@@ -41,7 +40,7 @@ export class Panel {
 
     // set init message
     await joplin.views.panels.setHtml(this._panel, `
-      <div id="container" style="background:${this.sets.background};font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
+      <div id="container" style="background:${this.sets.background};font-family:${this.sets.fontFamily},sans-serif;font-size:${this.sets.fontSize};">
         <div id="fm-container">
           <p>Loading panel...</p>
         </div>
@@ -244,7 +243,7 @@ export class Panel {
 
     // add entries to container and push to panel
     await joplin.views.panels.setHtml(this._panel, `
-      <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:'${this.sets.fontFamily}',sans-serif;font-size:${this.sets.fontSize};">
+      <div id="container" style="background:${this.sets.background};line-height:${this.sets.lineHeight}px;font-family:${this.sets.fontFamily},sans-serif;font-size:${this.sets.fontSize};">
         ${panelTitleHtml}
         <div id="fm-container">
           <div id="fm-inner">

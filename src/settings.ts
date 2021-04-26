@@ -26,7 +26,7 @@ export enum SettingDefaults {
   Empty = '0',
   Default = 'default',
   LineHeight = '1.5em',
-  FontFamily = 'Roboto',
+  FontFamily = 'var(--joplin-font-family)',
   FontSize = 'var(--joplin-font-size)',
   Background = 'var(--joplin-background-color)',
   KeyBackground = 'var(--joplin-background-color3)',
@@ -178,7 +178,7 @@ export class Settings {
       public: true,
       advanced: true,
       label: 'Font family',
-      description: "Font family used in the panel. Font families other than 'default' must be installed on the system. If the font is incorrect or empty, it might default to a generic sans-serif font. (default: Roboto)"
+      description: "Font family used in the panel. Font families other than 'default' must be installed on the system. If the font is incorrect or empty, it might default to a generic sans-serif font. (default: App default)"
     });
     await joplin.settings.registerSetting('fontSize', {
       value: this._fontSize,
