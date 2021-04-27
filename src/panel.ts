@@ -136,7 +136,7 @@ export class Panel {
   }
 
   private getScalarHtml(scalar: Scalar): string {
-    if (!scalar.value) return '';
+    if (scalar.value === undefined) return '';
     const val: string = scalar.value;
 
     // check if its a boolean value
