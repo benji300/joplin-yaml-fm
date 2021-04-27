@@ -12,8 +12,9 @@
     "data",
     "fm",
     "front",
-    "info",
+    "frontmatter",
     "matter",
+    "metadata",
     "note",
     "panel",
     "yaml"

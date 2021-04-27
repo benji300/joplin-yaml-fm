@@ -4,7 +4,7 @@ YAML Front Matter is a plugin to extend the UX and UI of [Joplin's](https://jopl
 
 It allows to display YAML front matter metadata of the selected note in a separate panel.
 
-> :warning: **CAUTION** - Requires Joplin **v1.7.10** or newer
+> :warning: **CAUTION** - Requires Joplin **v1.8.2** or newer
 
 ## Features
 
@@ -19,6 +19,8 @@ It allows to display YAML front matter metadata of the selected note in a separa
 ## Installation
 
 ### Automatic (Joplin v1.6.4 and newer)
+
+> Currently not supported.
 
 - Open Joplin and navigate to `Tools > Options > Plugins`
 - Search for the plugin name and press install
