@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "id": "joplin.plugin.benji.yaml-fm",
   "app_min_version": "1.8.2",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "YAML Front Matter",
   "description": "Display YAML front matter metadata in separate panel.",
   "author": "Benji300",

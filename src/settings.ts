@@ -134,114 +134,113 @@ export class Settings {
       label: 'Front Matter',
       iconName: 'fas fa-info-circle'
     });
-
-    // private settings
-    // none
-
-    // general settings
-    await joplin.settings.registerSetting('panelVisibility', {
-      value: this._panelVisibility,
-      type: SettingItemType.Int,
-      section: 'yaml.fm.settings',
-      isEnum: true,
-      public: true,
-      options: {
-        '0': 'Always',
-        '1': 'Automatic'
+    await joplin.settings.registerSettings({
+      // private settings
+      // none
+      // general settings
+      panelVisibility: {
+        value: this._panelVisibility,
+        type: SettingItemType.Int,
+        section: 'yaml.fm.settings',
+        isEnum: true,
+        public: true,
+        options: {
+          '0': 'Always',
+          '1': 'Automatic'
+        },
+        label: 'Panel visibility',
+        description: "Choose whether the panel should always be visible or only when the selected note contains valid YAML front matter data."
       },
-      label: 'Panel visibility',
-      description: "Choose whether the panel should always be visible or only when the selected note contains valid YAML front matter data."
-    });
-    await joplin.settings.registerSetting('showPanelTitle', {
-      value: this._showPanelTitle,
-      type: SettingItemType.Bool,
-      section: 'yaml.fm.settings',
-      public: true,
-      label: 'Show panel title',
-      description: "Display 'FRONT MATTER' title on the panel. Including additional buttons."
-    });
-    await joplin.settings.registerSetting('lineHeight', {
-      value: this._lineHeight,
-      type: SettingItemType.Int,
-      section: 'yaml.fm.settings',
-      public: true,
-      minimum: 20,
-      label: 'Line height (px)',
-      description: 'Line height of one data entry.'
-    });
-
-    // advanced settings
-    await joplin.settings.registerSetting('fontFamily', {
-      value: this._fontFamily,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Font family',
-      description: "Font family used in the panel. Font families other than 'default' must be installed on the system. If the font is incorrect or empty, it might default to a generic sans-serif font. (default: App default)"
-    });
-    await joplin.settings.registerSetting('fontSize', {
-      value: this._fontSize,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Font size',
-      description: "Font size used in the panel. Values other than 'default' must be specified in valid CSS syntax, e.g. '13px'. (default: App default font size)"
-    });
-    await joplin.settings.registerSetting('mainBackground', {
-      value: this._background,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Background color',
-      description: 'Main background color of the panel. (default: Note background color)'
-    });
-    await joplin.settings.registerSetting('keyBackground', {
-      value: this._keyBackground,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Key background color',
-      description: 'Background color for data keys. (default: Note list background color)'
-    });
-    await joplin.settings.registerSetting('valueBackground', {
-      value: this._valueBackground,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Value background color',
-      description: 'Background color for data values. (default: Note background color)'
-    });
-    await joplin.settings.registerSetting('mainForeground', {
-      value: this._foreground,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Foreground color',
-      description: 'Foreground color used for text and icons. (default: Note font color)'
-    });
-    await joplin.settings.registerSetting('dividerColor', {
-      value: this._dividerColor,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'Divider color',
-      description: 'Color of the divider between the data entries. (default: App default border color)'
-    });
-    await joplin.settings.registerSetting('listStyleType', {
-      value: this._listStyleType,
-      type: SettingItemType.String,
-      section: 'yaml.fm.settings',
-      public: true,
-      advanced: true,
-      label: 'List style type',
-      description: "Specify the prefix for list item values (sequences). Enter a valid CSS value for list-style-type (e.g. disc, none, lower-roman, ...) or any characters in single quotes (e.g. '- ')."
+      showPanelTitle: {
+        value: this._showPanelTitle,
+        type: SettingItemType.Bool,
+        section: 'yaml.fm.settings',
+        public: true,
+        label: 'Show panel title',
+        description: "Display 'FRONT MATTER' title on the panel. Including additional buttons."
+      },
+      lineHeight: {
+        value: this._lineHeight,
+        type: SettingItemType.Int,
+        section: 'yaml.fm.settings',
+        public: true,
+        minimum: 20,
+        label: 'Line height (px)',
+        description: 'Line height of one data entry.'
+      },
+      // advanced settings
+      fontFamily: {
+        value: this._fontFamily,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Font family',
+        description: "Font family used in the panel. Font families other than 'default' must be installed on the system. If the font is incorrect or empty, it might default to a generic sans-serif font. (default: App default)"
+      },
+      fontSize: {
+        value: this._fontSize,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Font size',
+        description: "Font size used in the panel. Values other than 'default' must be specified in valid CSS syntax, e.g. '13px'. (default: App default font size)"
+      },
+      mainBackground: {
+        value: this._background,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Background color',
+        description: 'Main background color of the panel. (default: Note background color)'
+      },
+      keyBackground: {
+        value: this._keyBackground,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Key background color',
+        description: 'Background color for data keys. (default: Note list background color)'
+      },
+      valueBackground: {
+        value: this._valueBackground,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Value background color',
+        description: 'Background color for data values. (default: Note background color)'
+      },
+      mainForeground: {
+        value: this._foreground,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Foreground color',
+        description: 'Foreground color used for text and icons. (default: Note font color)'
+      },
+      dividerColor: {
+        value: this._dividerColor,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'Divider color',
+        description: 'Color of the divider between the data entries. (default: App default border color)'
+      },
+      listStyleType: {
+        value: this._listStyleType,
+        type: SettingItemType.String,
+        section: 'yaml.fm.settings',
+        public: true,
+        advanced: true,
+        label: 'List style type',
+        description: "Specify the prefix for list item values (sequences). Enter a valid CSS value for list-style-type (e.g. disc, none, lower-roman, ...) or any characters in single quotes (e.g. '- ')."
+      }
     });
 
     // initially read settings
